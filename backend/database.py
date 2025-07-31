@@ -1,6 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from models import Module, User, Exercise, Certificate, UserProgress, ModuleContent
 import os
+import uuid
 from datetime import datetime
 
 # MongoDB connection
