@@ -20,17 +20,54 @@ import {
   Shield,
   TrendingUp,
   Calendar,
-  Menu
+  RefreshCw
 } from "lucide-react";
-import { mockModules, mockUser } from "../components/mock";
+import { useUser, useModules, useUserProgress, useUpdateModuleProgress } from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/use-toast";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const [user] = useState(mockUser);
+  const { toast } = useToast();
+  
+  // API hooks
+  const { data: user, loading: userLoading, refetch: refetchUser } = useUser();
+  const { data: modules = [], loading: modulesLoading, refetch: refetchModules } = useModules();
+  const { data: userProgress, loading: progressLoading, refetch: refetchProgress } = useUserProgress();
+  const { updateProgress, loading: updateLoading } = useUpdateModuleProgress();
 
-  const completedModules = mockModules.filter(m => m.completed).length;
-  const totalProgress = Math.round((completedModules / mockModules.length) * 100);
+  const completedModules = modules.filter(m => m.completed).length;
+  const totalProgress = userProgress?.totalProgress || Math.round((completedModules / modules.length) * 100);
+
+  const handleRefreshData = async () => {
+    try {
+      await Promise.all([refetchUser(), refetchModules(), refetchProgress()]);
+      toast({
+        title: "Données actualisées",
+        description: "Vos informations ont été mises à jour avec succès",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'actualiser les données",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (userLoading || modulesLoading || progressLoading) {
+    return (
+      <div className="min-h-screen brand-gradient-clean flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full animate-spin mx-auto mb-4 flex items-center justify-center">
+            <RefreshCw className="w-8 h-8 text-black" />
+          </div>
+          <h2 className="text-2xl font-bold text-professional-white mb-2">Chargement de votre dashboard...</h2>
+          <p className="text-gray-400">Récupération de vos données personnalisées</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen brand-gradient-clean relative overflow-hidden">
@@ -73,14 +110,24 @@ const DashboardPage = () => {
                 <Home className="w-4 h-4 mr-2" />
                 Accueil
               </Button>
+              <Button 
+                variant="ghost" 
+                onClick={handleRefreshData}
+                className="text-gray-300 hover:text-yellow-400 button-professional"
+                disabled={updateLoading}
+              >
+                <RefreshCw className={`w-4 h-4 ${updateLoading ? 'animate-spin' : ''}`} />
+              </Button>
               <div className="flex items-center space-x-3">
                 <div className="hidden md:block text-right">
-                  <div className="text-white font-semibold">{user.name}</div>
+                  <div className="text-white font-semibold">{user?.name || 'Utilisateur'}</div>
                   <div className="text-yellow-400 text-sm font-medium">Membre Premium</div>
                 </div>
                 <Avatar className="cursor-pointer ring-2 ring-yellow-400/30 hover:ring-yellow-400/50 transition-all w-10 h-10 md:w-12 md:h-12">
                   <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face" />
-                  <AvatarFallback className="bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold">UD</AvatarFallback>
+                  <AvatarFallback className="bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold">
+                    {user?.name?.charAt(0) || 'U'}
+                  </AvatarFallback>
                 </Avatar>
               </div>
             </nav>
@@ -92,7 +139,7 @@ const DashboardPage = () => {
         {/* Professional Welcome Section */}
         <div className="mb-12 text-center">
           <h1 className="text-mobile-hero text-3xl md:text-4xl lg:text-5xl font-black text-professional-white mb-4">
-            Bonjour <span className="text-professional-gold">{user.name}</span> ! 
+            Bonjour <span className="text-professional-gold">{user?.name || 'Utilisateur'}</span> ! 
             <span className="inline-block ml-2 animate-bounce">👋</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 font-medium max-w-2xl mx-auto">
@@ -131,7 +178,7 @@ const DashboardPage = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="mb-3 md:mb-0">
                   <p className="text-gray-300 font-semibold mb-1 text-sm md:text-base">Modules</p>
-                  <p className="text-2xl md:text-4xl font-black text-white group-hover:text-green-400 transition-colors stat-number-clean">{completedModules}/{mockModules.length}</p>
+                  <p className="text-2xl md:text-4xl font-black text-white group-hover:text-green-400 transition-colors stat-number-clean">{completedModules}/{modules.length}</p>
                 </div>
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-green-400 to-green-500 rounded-xl flex items-center justify-center">
                   <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -159,7 +206,7 @@ const DashboardPage = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="mb-3 md:mb-0">
                   <p className="text-gray-300 font-semibold mb-1 text-sm md:text-base">Certificats</p>
-                  <p className="text-2xl md:text-4xl font-black text-white group-hover:text-yellow-400 transition-colors stat-number-clean">{user.certificates}</p>
+                  <p className="text-2xl md:text-4xl font-black text-white group-hover:text-yellow-400 transition-colors stat-number-clean">{user?.certificates || 0}</p>
                 </div>
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center">
                   <Trophy className="w-5 h-5 md:w-6 md:h-6 text-black" />
@@ -208,7 +255,7 @@ const DashboardPage = () => {
                   <div className="text-gray-400 font-medium text-sm">Terminés</div>
                 </div>
                 <div>
-                  <div className="text-2xl md:text-3xl font-black text-blue-400 mb-1">{mockModules.length - completedModules}</div>
+                  <div className="text-2xl md:text-3xl font-black text-blue-400 mb-1">{modules.length - completedModules}</div>
                   <div className="text-gray-400 font-medium text-sm">Restants</div>
                 </div>
                 <div>
@@ -217,7 +264,7 @@ const DashboardPage = () => {
                 </div>
               </div>
               <p className="text-gray-300 leading-relaxed">
-                Vous avez terminé <span className="text-professional-gold font-semibold">{completedModules} modules premium</span> sur {mockModules.length}. 
+                Vous avez terminé <span className="text-professional-gold font-semibold">{completedModules} modules premium</span> sur {modules.length}. 
                 Continuez ainsi pour débloquer votre <span className="text-professional-gold font-semibold">certificat premium</span> !
               </p>
             </div>
@@ -233,13 +280,13 @@ const DashboardPage = () => {
             <div className="flex items-center space-x-3">
               <Badge className="badge-clean px-3 py-2">
                 <Calendar className="w-4 h-4 mr-2" />
-                6 Modules Disponibles
+                {modules.length} Modules Disponibles
               </Badge>
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockModules.map((module, index) => (
+            {modules.map((module, index) => (
               <Card 
                 key={module.id} 
                 className={`group card-professional glass-morphism-clean border-gray-700/50 hover:border-yellow-400/40 cursor-pointer relative overflow-hidden
