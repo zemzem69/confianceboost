@@ -1,0 +1,87 @@
+{
+  "summary": {
+    "passed": 0,
+    "total": 10,
+    "success_rate": 0.0,
+    "timestamp": "2025-08-02T03:54:31.516396"
+  },
+  "tests": [
+    {
+      "test": "Health Check (GET /api/)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.436906",
+      "response_data": ""
+    },
+    {
+      "test": "Get All Modules (GET /api/modules)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.448909",
+      "response_data": ""
+    },
+    {
+      "test": "Get Specific Module (GET /api/modules/1)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.456761",
+      "response_data": ""
+    },
+    {
+      "test": "Update Module Progress (PUT /api/modules/1/progress)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.464832",
+      "response_data": ""
+    },
+    {
+      "test": "Get User Profile (GET /api/user/profile)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.472893",
+      "response_data": ""
+    },
+    {
+      "test": "Get User Progress (GET /api/user/progress)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.484546",
+      "response_data": ""
+    },
+    {
+      "test": "Get Platform Stats (GET /api/stats)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.493107",
+      "response_data": ""
+    },
+    {
+      "test": "Get Module Exercises (GET /api/modules/1/exercises)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.501204",
+      "response_data": ""
+    },
+    {
+      "test": "Get Certificates (GET /api/certificates)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.508980",
+      "response_data": ""
+    },
+    {
+      "test": "Get All Modules (GET /api/modules)",
+      "success": false,
+      "details": "HTTP 502",
+      "timestamp": "2025-08-02T03:54:31.516146",
+      "response_data": ""
+    },
+    {
+      "test": "Database Initialization",
+      "success": false,
+      "details": "Expected at least 6 modules, found 0",
+      "timestamp": "2025-08-02T03:54:31.516191",
+      "response_data": null
+    }
+  ]
+}
