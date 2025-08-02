@@ -472,27 +472,7 @@ async def get_dashboard(current_user: User = Depends(get_current_user)):
         }
     }
 
-# General stats endpoint
-@api_router.get("/stats", response_model=Stats)
-async def get_stats():
-    total_users = await db.users.count_documents({})
-    total_modules = await db.modules.count_documents({})
-    total_certificates = await db.certificates.count_documents({})
-    
-    # Calculate average completion rate
-    if total_users > 0:
-        completed_progresses = await db.user_progress.count_documents({"status": ModuleStatus.COMPLETED})
-        total_progresses = await db.user_progress.count_documents({})
-        average_completion_rate = (completed_progresses / total_progresses * 100) if total_progresses > 0 else 0
-    else:
-        average_completion_rate = 0
-    
-    return Stats(
-        total_users=total_users,
-        total_modules=total_modules,
-        total_certificates=total_certificates,
-        average_completion_rate=round(average_completion_rate, 1)
-    )
+# Payment endpoints will be added here
 
 # Health check
 @api_router.get("/health")
