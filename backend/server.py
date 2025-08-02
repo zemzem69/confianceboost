@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
@@ -17,6 +17,12 @@ from database import (
     get_user_by_id, update_user_profile, get_user_progress,
     get_exercises_by_module, complete_exercise, get_certificates,
     create_certificate, get_stats
+)
+
+# Import Shopify integration
+from shopify_integration import (
+    validate_shopify_access, verify_shopify_webhook, 
+    ShopifyOrder, create_shopify_user_access, WELCOME_EMAIL_TEMPLATE
 )
 
 ROOT_DIR = Path(__file__).parent
@@ -45,7 +51,129 @@ DEFAULT_USER_ID = "demo-user-1"
 async def root():
     return {"message": "ConfianceBoost API is running", "version": "1.0.0"}
 
-# Modules endpoints
+# Shopify Integration Endpoints
+@api_router.post("/shopify/validate-access")
+async def validate_shopify_purchase(request: Request):
+    """
+    Validate Shopify purchase and grant access
+    Expected payload: {"email": "user@email.com", "order_number": "1001"}
+    """
+    try:
+        data = await request.json()
+        email = data.get('email', '').strip().lower()
+        order_number = data.get('order_number', '').strip()
+        
+        if not email or not order_number:
+            raise HTTPException(
+                status_code=400, 
+                detail="Email et numéro de commande requis"
+            )
+        
+        # Validate with Shopify
+        result = await validate_shopify_access(email, order_number)
+        
+        if result['valid']:
+            return {
+                "success": True,
+                "message": result['message'],
+                "user": result['user'],
+                "redirect_url": "/dashboard"
+            }
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail=result['message']
+            )
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error validating Shopify access: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Erreur lors de la validation de votre achat"
+        )
+
+@api_router.post("/shopify/webhook/order-paid")
+async def handle_shopify_order_paid(request: Request):
+    """
+    Handle Shopify order paid webhook
+    """
+    try:
+        # Verify webhook signature
+        signature = request.headers.get('X-Shopify-Hmac-Sha256', '')
+        body = await request.body()
+        
+        if not verify_shopify_webhook(body, signature):
+            raise HTTPException(status_code=401, detail="Unauthorized webhook")
+        
+        # Parse order data
+        order_data = await request.json()
+        
+        # Check if this is a ConfianceBoost product
+        line_items = order_data.get('line_items', [])
+        is_confianceboost_order = False
+        
+        for item in line_items:
+            product_name = item.get('name', '').lower()
+            if 'confianceboost' in product_name or 'confiance' in product_name:
+                is_confianceboost_order = True
+                break
+        
+        if not is_confianceboost_order:
+            return {"status": "ignored", "reason": "Not a ConfianceBoost product"}
+        
+        # Create user access
+        shopify_order_data = {
+            'order_id': order_data['id'],
+            'order_number': order_data['name'],
+            'email': order_data['email'],
+            'customer_name': f"{order_data.get('billing_address', {}).get('first_name', '')} {order_data.get('billing_address', {}).get('last_name', '')}".strip(),
+            'total_price': order_data['total_price'],
+            'created_at': order_data['created_at'],
+            'financial_status': order_data['financial_status']
+        }
+        
+        user = await create_shopify_user_access(shopify_order_data)
+        
+        # TODO: Send welcome email here
+        # await send_welcome_email(user['email'], shopify_order_data)
+        
+        logging.info(f"Created access for Shopify order {order_data['name']} - {order_data['email']}")
+        
+        return {
+            "status": "success",
+            "message": "User access created",
+            "user_id": user['id']
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error handling Shopify webhook: {e}")
+        raise HTTPException(status_code=500, detail="Webhook processing error")
+
+@api_router.get("/shopify/user/{email}")
+async def get_shopify_user(email: str):
+    """
+    Get user by email (for Shopify integration)
+    """
+    try:
+        from database import users_collection
+        
+        user = await users_collection.find_one({"email": email.lower()})
+        if not user:
+            raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+        
+        return user
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching Shopify user: {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de la récupération de l'utilisateur")
+
+# Existing endpoints (modules, user, etc.)
 @api_router.get("/modules", response_model=List[Module])
 async def get_all_modules():
     """Récupère tous les modules de formation"""
@@ -229,7 +357,7 @@ logger = logging.getLogger(__name__)
 @app.on_event("startup")
 async def startup_event():
     await init_database()
-    logger.info("✅ ConfianceBoost API initialized successfully")
+    logger.info("✅ ConfianceBoost API with Shopify integration initialized successfully")
 
 @app.on_event("shutdown")
 async def shutdown_event():
