@@ -17,12 +17,13 @@ body {
   min-height: 100vh;
   background: 
     radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(34, 197, 94, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(255, 215, 0, 0.02) 0%, transparent 60%),
     linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
 }
 
-/* Fond subtil */
+/* Fond subtil avec touches vertes */
 .App::before {
   content: '';
   position: fixed;
@@ -32,11 +33,12 @@ body {
   height: 100%;
   background: 
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.01) 0%, transparent 40%);
   z-index: -1;
 }
 
-/* Gradients dorés épurés */
+/* Gradients dorés avec accents verts */
 .gold-gradient {
   background: linear-gradient(135deg, 
     #D4AF37 0%, 
@@ -56,7 +58,27 @@ body {
   font-weight: 700;
 }
 
-/* Boutons épurés et nets */
+/* Nouveau gradient vert premium */
+.green-gradient {
+  background: linear-gradient(135deg, 
+    #10b981 0%, 
+    #22c55e 50%, 
+    #16a34a 100%);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+}
+
+.green-gradient-text {
+  background: linear-gradient(135deg, 
+    #10b981 0%, 
+    #22c55e 50%, 
+    #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* Boutons épurés avec variantes vertes */
 .btn-primary {
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
   color: #000;
@@ -86,8 +108,33 @@ body {
   filter: brightness(1.1);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
+  color: #000;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 4px 15px rgba(34, 197, 94, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(34, 197, 94, 0.4),
+    0 3px 8px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
 }
 
 .btn-secondary {
@@ -115,7 +162,7 @@ body {
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
-/* Cards élégantes et nettes */
+/* Cards élégantes avec accents verts */
 .card {
   background: linear-gradient(135deg, 
     rgba(26, 26, 26, 0.8) 0%, 
@@ -155,7 +202,20 @@ body {
   opacity: 1;
 }
 
-/* Module cards premium */
+/* Card verte pour succès */
+.card-success {
+  background: linear-gradient(135deg, 
+    rgba(16, 185, 129, 0.1) 0%, 
+    rgba(26, 26, 26, 0.8) 50%, 
+    rgba(17, 17, 17, 0.9) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.card-success::before {
+  background: linear-gradient(90deg, transparent, #22c55e, transparent);
+}
+
+/* Module cards premium avec statuts colorés */
 .module-card {
   background: linear-gradient(135deg, 
     rgba(26, 26, 26, 0.9) 0%, 
@@ -181,11 +241,21 @@ body {
 }
 
 .module-card.completed {
-  border-color: rgba(34, 197, 94, 0.5);
+  border-color: rgba(34, 197, 94, 0.6);
   background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.05) 0%, 
+    rgba(34, 197, 94, 0.08) 0%, 
     rgba(26, 26, 26, 0.9) 50%, 
     rgba(17, 17, 17, 0.95) 100%);
+  box-shadow: 
+    0 6px 25px rgba(34, 197, 94, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.module-card.completed:hover {
+  border-color: rgba(34, 197, 94, 0.8);
+  box-shadow: 
+    0 10px 40px rgba(34, 197, 94, 0.3),
+    0 4px 15px rgba(34, 197, 94, 0.2);
 }
 
 .module-card.in-progress {
@@ -196,7 +266,7 @@ body {
     rgba(17, 17, 17, 0.95) 100%);
 }
 
-/* Progress bars nettes */
+/* Progress bars avec variantes vertes */
 .progress-bar {
   width: 100%;
   height: 0.5rem;
@@ -212,6 +282,11 @@ body {
   border-radius: 0.25rem;
   transition: width 0.5s ease;
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.progress-fill.completed {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
 }
 
 /* Animations subtiles */
@@ -263,6 +338,11 @@ body {
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
+.form-input.success:focus {
+  border-color: rgba(34, 197, 94, 0.6);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
 .form-input::placeholder {
   color: #888;
 }
@@ -280,6 +360,13 @@ body {
   font-size: 3rem;
   font-weight: 800;
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-counter.success {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -347,15 +434,7 @@ nav {
   letter-spacing: -0.5px;
 }
 
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background: url('https://images.unsplash.com/photo-1649000808933-1f4aac7cad9a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjBsb2dvfGVufDB8fHxibGFja3wxNzU0MTQzNjYzfDA&ixlib=rb-4.1.0&q=85') center/cover;
-  border-radius: 0.5rem;
-  filter: brightness(1.2) contrast(1.1);
-}
-
-/* Badges et étiquettes */
+/* Badges et étiquettes avec variantes */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -371,6 +450,19 @@ nav {
   letter-spacing: 0.5px;
 }
 
+.badge.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.badge.premium {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(34, 197, 94, 0.1));
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #D4AF37;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
 /* Premium effects épurés */
 .premium-glow {
   position: relative;
@@ -383,7 +475,11 @@ nav {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+  background: linear-gradient(45deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.2), 
+    rgba(34, 197, 94, 0.1), 
+    transparent);
   border-radius: inherit;
   z-index: -1;
   opacity: 0;
@@ -409,10 +505,23 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
+.text-success {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
 /* Icônes stylées */
 .icon-gold {
   color: #D4AF37;
   filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
+}
+
+.icon-green {
+  color: #22c55e;
+  filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3));
 }
 
 /* Status indicators */
@@ -434,10 +543,28 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(107, 114, 128, 0.3);
 }
 
+/* Accents verts pour éléments spéciaux */
+.success-accent {
+  border-left: 4px solid #22c55e;
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.05) 0%, 
+    rgba(26, 26, 26, 0.8) 100%);
+}
+
+.certificate-badge {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
 /* Responsive épuré */
 @media (max-width: 768px) {
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .btn-success {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
   }
@@ -457,7 +584,8 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 480px) {
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .btn-success {
     padding: 0.625rem 1.25rem;
     font-size: 0.85rem;
   }
@@ -482,18 +610,6 @@ h1, h2, h3, h4, h5, h6 {
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Overlay patterns subtils */
-.pattern-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle at 1px 1px, rgba(212, 175, 55, 0.1) 1px, transparent 0);
-  background-size: 20px 20px;
-  opacity: 0.1;
-  pointer-events: none;
-}
-
 /* Sections distinctes */
 .section-dark {
   background: linear-gradient(135deg, 
@@ -505,4 +621,37 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(135deg, 
     rgba(5, 5, 5, 0.98) 0%, 
     rgba(10, 10, 10, 0.95) 100%);
+}
+
+/* Nouveaux éléments verts */
+.growth-indicator {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.completion-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completion-ring::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #22c55e, #10b981, #16a34a, #22c55e);
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
 }
