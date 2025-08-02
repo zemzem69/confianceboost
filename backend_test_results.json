@@ -1,86 +1,100 @@
 {
   "summary": {
-    "passed": 0,
+    "passed": 8,
     "total": 10,
-    "success_rate": 0.0,
-    "timestamp": "2025-08-02T03:54:31.516396"
+    "success_rate": 80.0,
+    "timestamp": "2025-08-02T03:55:09.279580"
   },
   "tests": [
     {
       "test": "Health Check (GET /api/)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.436906",
-      "response_data": ""
+      "success": true,
+      "details": "API is running - ConfianceBoost API is running, version 1.0.0",
+      "timestamp": "2025-08-02T03:55:08.920561",
+      "response_data": null
     },
     {
       "test": "Get All Modules (GET /api/modules)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.448909",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved 6 modules successfully",
+      "timestamp": "2025-08-02T03:55:08.932630",
+      "response_data": null
     },
     {
       "test": "Get Specific Module (GET /api/modules/1)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.456761",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved module 'Comprendre sa valeur personnelle' successfully",
+      "timestamp": "2025-08-02T03:55:08.984015",
+      "response_data": null
     },
     {
       "test": "Update Module Progress (PUT /api/modules/1/progress)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.464832",
-      "response_data": ""
+      "success": true,
+      "details": "Progress updated to 50%",
+      "timestamp": "2025-08-02T03:55:09.038651",
+      "response_data": null
+    },
+    {
+      "test": "Complete Module (PUT /api/modules/1/progress)",
+      "success": true,
+      "details": "Module marked as completed successfully",
+      "timestamp": "2025-08-02T03:55:09.054015",
+      "response_data": null
     },
     {
       "test": "Get User Profile (GET /api/user/profile)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.472893",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved profile for user 'Utilisateur Demo' (demo@confianceboost.fr)",
+      "timestamp": "2025-08-02T03:55:09.105244",
+      "response_data": null
     },
     {
       "test": "Get User Progress (GET /api/user/progress)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.484546",
-      "response_data": ""
+      "success": true,
+      "details": "Progress: 16% (1/6 modules)",
+      "timestamp": "2025-08-02T03:55:09.156511",
+      "response_data": null
     },
     {
       "test": "Get Platform Stats (GET /api/stats)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.493107",
-      "response_data": ""
+      "success": true,
+      "details": "Stats: 2847 students, 94% completion, 4.9 rating",
+      "timestamp": "2025-08-02T03:55:09.168508",
+      "response_data": null
     },
     {
       "test": "Get Module Exercises (GET /api/modules/1/exercises)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.501204",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved 0 exercises for module 1",
+      "timestamp": "2025-08-02T03:55:09.251242",
+      "response_data": null
     },
     {
       "test": "Get Certificates (GET /api/certificates)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.508980",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved 0 certificates",
+      "timestamp": "2025-08-02T03:55:09.260549",
+      "response_data": null
     },
     {
       "test": "Get All Modules (GET /api/modules)",
-      "success": false,
-      "details": "HTTP 502",
-      "timestamp": "2025-08-02T03:54:31.516146",
-      "response_data": ""
+      "success": true,
+      "details": "Retrieved 6 modules successfully",
+      "timestamp": "2025-08-02T03:55:09.270503",
+      "response_data": null
+    },
+    {
+      "test": "Get User Profile (GET /api/user/profile)",
+      "success": true,
+      "details": "Retrieved profile for user 'Utilisateur Demo' (demo@confianceboost.fr)",
+      "timestamp": "2025-08-02T03:55:09.279286",
+      "response_data": null
     },
     {
       "test": "Database Initialization",
-      "success": false,
-      "details": "Expected at least 6 modules, found 0",
-      "timestamp": "2025-08-02T03:54:31.516191",
+      "success": true,
+      "details": "Database properly initialized with 6 modules and demo user",
+      "timestamp": "2025-08-02T03:55:09.279332",
       "response_data": null
     }
   ]
