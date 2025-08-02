@@ -11,8 +11,10 @@ import {
   Star,
   Target,
   User,
-  Settings,
-  Crown
+  Crown,
+  Award,
+  TrendingUp,
+  Zap
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../App';
@@ -40,30 +42,37 @@ const DashboardPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    toast.success('Déconnexion réussie');
-    navigate('/');
-  };
-
   const startModule = async (moduleId) => {
     try {
       await progressService.startModule(moduleId);
-      loadDashboard(); // Recharger pour mettre à jour les données
+      loadDashboard();
       navigate(`/module/${moduleId}`);
     } catch (error) {
       console.error('Erreur démarrage module:', error);
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    toast.success('Déconnexion réussie');
+    navigate('/');
+  };
+
+  const getProgressPercentage = () => {
+    if (!dashboard) return 0;
+    const completedModules = dashboard.stats.completed_modules;
+    const totalModules = dashboard.stats.total_modules;
+    return Math.round((completedModules / totalModules) * 100);
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'completed':
-        return 'text-green-400 border-green-400 bg-green-400/10';
+        return 'status-completed';
       case 'in_progress':
-        return 'text-yellow-400 border-yellow-400 bg-yellow-400/10';
+        return 'status-in-progress';
       default:
-        return 'text-gray-400 border-gray-600 bg-gray-600/10';
+        return 'status-not-started';
     }
   };
 
@@ -75,17 +84,6 @@ const DashboardPage = () => {
         return 'En cours';
       default:
         return 'Non commencé';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'completed':
-        return <CheckCircle className="w-5 h-5" />;
-      case 'in_progress':
-        return <Play className="w-5 h-5" />;
-      default:
-        return <BookOpen className="w-5 h-5" />;
     }
   };
 
@@ -113,22 +111,28 @@ const DashboardPage = () => {
     );
   }
 
+  const progressPercentage = getProgressPercentage();
+  const totalStudyHours = Math.floor(dashboard.stats.total_study_time / 60);
+  const totalStudyMinutes = dashboard.stats.total_study_time % 60;
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="bg-gray-900/50 border-b border-gray-800">
+      <nav className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg"></div>
-              <span className="text-xl font-bold gold-gradient-text">ConfianceBoost</span>
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="brand-logo w-10 h-10 flex items-center justify-center">
+                <span className="text-black font-black text-lg">CB</span>
+              </div>
+              <span className="text-2xl font-bold brand-text">ConfianceBoost</span>
             </Link>
             
             <div className="flex items-center space-x-4">
               {user?.is_premium && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-yellow-400/20 border border-yellow-400/30 rounded-full">
-                  <Crown className="w-4 h-4 text-yellow-400" />
-                  <span className="text-yellow-400 text-sm font-medium">Premium</span>
+                <div className="badge">
+                  <Crown className="w-4 h-4" />
+                  Premium
                 </div>
               )}
               <div className="flex items-center gap-2 text-gray-300">
@@ -148,154 +152,207 @@ const DashboardPage = () => {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {/* Header avec salutation */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
+          <h1 className="text-4xl font-bold mb-2">
             Bonjour {user?.first_name} ! 👋
           </h1>
           <p className="text-gray-400 text-lg">
-            Continuez votre parcours vers une confiance renforcée
+            Continuez votre parcours vers plus de confiance en soi
           </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="card">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-blue-400" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold">{dashboard.stats.completed_modules}</div>
-                <div className="text-gray-400 text-sm">Modules terminés</div>
-              </div>
+        {/* Stats principales */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="card text-center">
+            <TrendingUp className="w-8 h-8 icon-gold mx-auto mb-2" />
+            <div className="text-sm text-gray-400 mb-1">Progression Active</div>
+            <div className="text-2xl font-bold text-premium">{progressPercentage}%</div>
+          </div>
+
+          <div className="card text-center">
+            <Crown className="w-8 h-8 icon-gold mx-auto mb-2" />
+            <div className="text-sm text-gray-400 mb-1">Accès à Vie</div>
+            <div className="text-2xl font-bold text-premium">
+              {user?.is_premium ? 'Premium' : 'Gratuit'}
             </div>
           </div>
 
-          <div className="card">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                <Target className="w-6 h-6 text-yellow-400" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold">{dashboard.stats.in_progress_modules}</div>
-                <div className="text-gray-400 text-sm">En cours</div>
-              </div>
+          <div className="card text-center">
+            <BookOpen className="w-8 h-8 icon-gold mx-auto mb-2" />
+            <div className="text-sm text-gray-400 mb-1">Modules</div>
+            <div className="text-2xl font-bold text-premium">
+              {dashboard.stats.completed_modules}/{dashboard.stats.total_modules}
             </div>
           </div>
 
-          <div className="card">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <Trophy className="w-6 h-6 text-green-400" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold">{dashboard.stats.certificates_count}</div>
-                <div className="text-gray-400 text-sm">Certificats</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-purple-400" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold">{Math.round(dashboard.stats.total_study_time / 60)}h</div>
-                <div className="text-gray-400 text-sm">Temps d'étude</div>
-              </div>
-            </div>
+          <div className="card text-center">
+            <Trophy className="w-8 h-8 icon-gold mx-auto mb-2" />
+            <div className="text-sm text-gray-400 mb-1">Certificats</div>
+            <div className="text-2xl font-bold text-premium">{dashboard.stats.certificates_count}</div>
           </div>
         </div>
 
-        {/* Progress Overview */}
-        <div className="card mb-8">
-          <h2 className="text-xl font-bold mb-4">Progression globale</h2>
-          <div className="flex items-center gap-4">
-            <div className="flex-1">
-              <div className="progress-bar">
+        {/* Card de progression premium */}
+        <div className="card mb-8 premium-glow">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Votre Progression Premium</h2>
+            <div className="badge">
+              <Star className="w-4 h-4" />
+              Formation Confiance en Soi
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="badge status-in-progress">
+                  <Zap className="w-4 h-4" />
+                  Formation Premium Active
+                </div>
+                <div className="text-lg font-semibold text-premium">
+                  {progressPercentage}% terminé
+                </div>
+              </div>
+              
+              <div className="progress-bar mb-4">
                 <div 
                   className="progress-fill" 
-                  style={{ 
-                    width: `${(dashboard.stats.completed_modules / dashboard.stats.total_modules) * 100}%` 
-                  }}
+                  style={{ width: `${progressPercentage}%` }}
                 ></div>
               </div>
+              
+              <p className="text-gray-300">
+                Vous avez terminé <span className="text-premium font-semibold">{dashboard.stats.completed_modules} modules premium</span> sur {dashboard.stats.total_modules}. 
+                Continuez ainsi pour débloquer votre certificat premium !
+              </p>
             </div>
-            <div className="text-sm text-gray-400">
-              {dashboard.stats.completed_modules}/{dashboard.stats.total_modules} modules
+            
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold text-green-400 mb-1">{dashboard.stats.completed_modules}</div>
+                <div className="text-xs text-gray-400">Terminés</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-premium mb-1">{dashboard.stats.total_modules - dashboard.stats.completed_modules}</div>
+                <div className="text-xs text-gray-400">Restants</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-premium mb-1">94%</div>
+                <div className="text-xs text-gray-400">Réussite</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Modules Grid */}
+        {/* Section modules */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-6">Vos modules de formation</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {dashboard.modules.map((module, index) => {
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">Mes Modules Premium</h2>
+            <div className="badge">
+              <BookOpen className="w-4 h-4" />
+              {dashboard.stats.total_modules} Modules Disponibles
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {dashboard.modules.map((moduleData, index) => {
+              const module = moduleData;
               const progress = module.progress;
-              const isLocked = !user?.is_premium && index > 0; // Seul le premier module est gratuit
+              const isLocked = !user?.is_premium && index > 0;
               
               return (
                 <div 
                   key={module.id} 
                   className={`module-card ${progress.status === 'completed' ? 'completed' : ''} ${progress.status === 'in_progress' ? 'in-progress' : ''} ${isLocked ? 'opacity-60' : ''}`}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-3xl">{module.icon}</div>
-                    <div className={`px-2 py-1 rounded-full border text-xs font-medium flex items-center gap-1 ${getStatusColor(progress.status)}`}>
-                      {getStatusIcon(progress.status)}
-                      {getStatusText(progress.status)}
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-lg font-bold mb-2">{module.title}</h3>
-                  <p className="text-gray-400 text-sm mb-4">{module.description}</p>
-                  
-                  <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
-                    <span>⏱️ {module.duration} min</span>
-                    <span>📚 {module.lessons_count} leçons</span>
-                  </div>
-                  
-                  {progress.status !== 'not_started' && (
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Progression</span>
-                        <span>{progress.progress_percentage}%</span>
-                      </div>
-                      <div className="progress-bar">
-                        <div 
-                          className="progress-fill" 
-                          style={{ width: `${progress.progress_percentage}%` }}
-                        ></div>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg flex items-center justify-center text-2xl font-bold text-premium">
+                        {index + 1}
                       </div>
                     </div>
-                  )}
-                  
-                  <div className="flex gap-2">
-                    {isLocked ? (
-                      <Link to="/payment" className="btn-primary flex-1 justify-center text-sm">
-                        <Crown className="w-4 h-4" />
-                        Débloquer - 97€
-                      </Link>
-                    ) : progress.status === 'not_started' ? (
-                      <button
-                        onClick={() => startModule(module.id)}
-                        className="btn-primary flex-1 justify-center text-sm"
-                      >
-                        <Play className="w-4 h-4" />
-                        Commencer
-                      </button>
-                    ) : (
-                      <Link
-                        to={`/module/${module.id}`}
-                        className="btn-secondary flex-1 justify-center text-sm"
-                      >
-                        <ArrowRight className="w-4 h-4" />
-                        Continuer
-                      </Link>
-                    )}
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-lg font-bold text-white truncate">
+                          Module {index + 1}
+                        </h3>
+                        <div className={`badge ${getStatusColor(progress.status)}`}>
+                          {progress.status === 'completed' && <CheckCircle className="w-3 h-3" />}
+                          {progress.status === 'in_progress' && <Play className="w-3 h-3" />}
+                          {progress.status === 'not_started' && <Clock className="w-3 h-3" />}
+                          {getStatusText(progress.status)}
+                        </div>
+                      </div>
+                      
+                      <h4 className="text-premium font-semibold mb-2">
+                        {module.title}
+                      </h4>
+                      
+                      <p className="text-gray-400 text-sm mb-3 line-clamp-2">
+                        {module.description}
+                      </p>
+                      
+                      <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {module.duration} min
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <BookOpen className="w-3 h-3" />
+                          {module.lessons_count} leçons
+                        </span>
+                      </div>
+                      
+                      {progress.status !== 'not_started' && (
+                        <div className="mb-3">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-gray-400">Progression</span>
+                            <span className="text-premium font-semibold">{progress.progress_percentage}%</span>
+                          </div>
+                          <div className="progress-bar">
+                            <div 
+                              className="progress-fill" 
+                              style={{ width: `${progress.progress_percentage}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      <div className="flex gap-2">
+                        {isLocked ? (
+                          <Link to="/payment" className="btn-primary flex-1 justify-center text-sm">
+                            <Crown className="w-4 h-4" />
+                            Débloquer Premium
+                          </Link>
+                        ) : progress.status === 'not_started' ? (
+                          <button
+                            onClick={() => startModule(module.id)}
+                            className="btn-primary flex-1 justify-center text-sm"
+                          >
+                            <Play className="w-4 h-4" />
+                            Commencer
+                          </button>
+                        ) : progress.status === 'completed' ? (
+                          <Link
+                            to={`/module/${module.id}`}
+                            className="btn-secondary flex-1 justify-center text-sm"
+                          >
+                            <CheckCircle className="w-4 h-4" />
+                            Revoir
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/module/${module.id}`}
+                            className="btn-primary flex-1 justify-center text-sm"
+                          >
+                            <ArrowRight className="w-4 h-4" />
+                            Continuer
+                          </Link>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
@@ -303,18 +360,30 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Premium CTA */}
+        {/* CTA Premium si pas premium */}
         {!user?.is_premium && (
-          <div className="card bg-gradient-to-r from-yellow-400/10 to-yellow-600/10 border-yellow-400/20">
-            <div className="text-center">
-              <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Débloquez tous les modules</h3>
+          <div className="card premium-glow text-center">
+            <div className="max-w-2xl mx-auto">
+              <div className="w-16 h-16 mx-auto mb-4 brand-logo flex items-center justify-center rounded-2xl">
+                <Crown className="w-8 h-8 text-black" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">
+                Débloquez Tous les Modules Premium
+              </h3>
               <p className="text-gray-300 mb-6">
-                Accédez aux 6 modules complets et transformez votre confiance dès aujourd'hui
+                Accédez aux 6 modules complets et transformez votre confiance dès aujourd'hui. 
+                Formation professionnelle avec certificats inclus.
               </p>
-              <Link to="/payment" className="btn-primary">
-                Passer Premium - 97€
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link to="/payment" className="btn-primary text-lg px-8 py-4">
+                  <Crown className="w-5 h-5" />
+                  Passer Premium - 97€
+                </Link>
+                <div className="text-center">
+                  <div className="text-lg font-semibold text-premium">Accès à vie</div>
+                  <div className="text-sm text-gray-400">+ Certificats + Support prioritaire</div>
+                </div>
+              </div>
             </div>
           </div>
         )}
