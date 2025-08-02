@@ -238,32 +238,52 @@ const HomePage = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">
               Pourquoi choisir{' '}
-              <span className="gold-gradient-text">ConfianceBoost</span> ?
+              <span className="gold-gradient-text">ConfianceBoost</span> ? 🌟
             </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              <img 
+                src="https://images.unsplash.com/photo-1616938895503-66c89f91bd7d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwzfHxjb2xvcmZ1bCUyMG1vdGl2YXRpb258ZW58MHx8fHwxNzU0MTQzMDkwfDA&ixlib=rb-4.1.0&q=85"
+                alt="Hope et motivation"
+                className="w-full h-48 object-cover rounded-2xl premium-glow"
+                style={{
+                  filter: 'brightness(1.3) saturate(1.6) contrast(1.2)',
+                  boxShadow: '0 0 60px rgba(255, 0, 128, 0.5)'
+                }}
+              />
+              <img 
+                src="https://images.unsplash.com/photo-1551889685-8cfc48b26ab2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHw0fHxjb25maWRlbmNlJTIwdHJhaW5pbmd8ZW58MHx8fHwxNzU0MTQzMDg1fDA&ixlib=rb-4.1.0&q=85"
+                alt="Confiance et force"
+                className="w-full h-48 object-cover rounded-2xl premium-glow"
+                style={{
+                  filter: 'brightness(1.3) saturate(1.6) contrast(1.2)',
+                  boxShadow: '0 0 60px rgba(138, 43, 226, 0.5)'
+                }}
+              />
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="card text-center">
-              <Target className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Méthodes éprouvées</h3>
+              <Target className="w-12 h-12 text-yellow-400 mx-auto mb-4" style={{filter: 'drop-shadow(0 0 20px rgba(255, 215, 0, 0.8))'}} />
+              <h3 className="text-xl font-bold mb-3">🎯 Méthodes éprouvées</h3>
               <p className="text-gray-300">
-                Techniques validées scientifiquement et utilisées par les meilleurs coachs
+                Techniques validées scientifiquement et utilisées par les meilleurs coachs internationaux ⭐
               </p>
             </div>
             
             <div className="card text-center">
-              <Heart className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Approche bienveillante</h3>
+              <Heart className="w-12 h-12 text-pink-400 mx-auto mb-4" style={{filter: 'drop-shadow(0 0 20px rgba(255, 0, 128, 0.8))'}} />
+              <h3 className="text-xl font-bold mb-3">💝 Approche bienveillante</h3>
               <p className="text-gray-300">
-                Un parcours respectueux de votre rythme, sans jugement ni pression
+                Un parcours respectueux de votre rythme, sans jugement ni pression, avec amour 💕
               </p>
             </div>
             
             <div className="card text-center">
-              <Zap className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-3">Résultats durables</h3>
+              <Zap className="w-12 h-12 text-cyan-400 mx-auto mb-4" style={{filter: 'drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))'}} />
+              <h3 className="text-xl font-bold mb-3">⚡ Résultats durables</h3>
               <p className="text-gray-300">
-                Des changements profonds qui s'installent dans la durée
+                Des changements profonds qui s'installent dans la durée avec des résultats visibles 🚀
               </p>
             </div>
           </div>
