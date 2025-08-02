@@ -113,11 +113,17 @@ class Certificate(BaseModel):
     issued_date: datetime = Field(default_factory=datetime.utcnow)
     certificate_url: str
 
-class Stats(BaseModel):
-    total_users: int
-    total_modules: int
-    total_certificates: int
-    average_completion_rate: float
+class PaymentRequest(BaseModel):
+    user_email: str
+    user_name: str
+
+class PaymentVerification(BaseModel):
+    checkout_id: str
+
+class PremiumActivation(BaseModel):
+    user_id: str
+    order_id: str
+    checkout_id: str
 
 # Helper functions
 def hash_password(password: str) -> str:
