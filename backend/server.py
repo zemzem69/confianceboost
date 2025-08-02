@@ -478,7 +478,121 @@ async def get_dashboard(current_user: User = Depends(get_current_user)):
         }
     }
 
-# Payment endpoints will be added here
+# Payment endpoints
+@api_router.post("/payment/create-checkout")
+async def create_checkout(payment_request: PaymentRequest):
+    """Crée une URL de checkout Shopify pour la formation ConfianceBoost"""
+    try:
+        checkout_data = await shopify_integration.create_checkout_url(
+            payment_request.user_email,
+            payment_request.user_name
+        )
+        return checkout_data
+    except Exception as e:
+        logger.error(f"Erreur création checkout: {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de la création du checkout")
+
+@api_router.post("/payment/verify")
+async def verify_payment(verification: PaymentVerification):
+    """Vérifie le statut d'un paiement"""
+    try:
+        payment_status = await shopify_integration.verify_payment(verification.checkout_id)
+        return payment_status
+    except Exception as e:
+        logger.error(f"Erreur vérification paiement: {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de la vérification du paiement")
+
+@api_router.post("/payment/activate-premium")
+async def activate_premium(activation: PremiumActivation, current_user: User = Depends(get_current_user)):
+    """Active le statut premium pour un utilisateur après paiement"""
+    try:
+        # Vérifier d'abord le paiement
+        payment_status = await shopify_integration.verify_payment(activation.checkout_id)
+        
+        if not payment_status.get("is_paid", False):
+            raise HTTPException(status_code=400, detail="Paiement non confirmé")
+        
+        # Activer le statut premium
+        await db.users.update_one(
+            {"id": current_user.id},
+            {"$set": {"is_premium": True, "premium_activated_at": datetime.utcnow()}}
+        )
+        
+        # Enregistrer la transaction
+        transaction = {
+            "id": str(uuid.uuid4()),
+            "user_id": current_user.id,
+            "order_id": activation.order_id,
+            "checkout_id": activation.checkout_id,
+            "amount": payment_status.get("total_price", "97.00"),
+            "currency": payment_status.get("currency", "EUR"),
+            "status": "completed",
+            "created_at": datetime.utcnow()
+        }
+        await db.transactions.insert_one(transaction)
+        
+        return {"message": "Statut premium activé avec succès", "transaction_id": transaction["id"]}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur activation premium: {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de l'activation premium")
+
+@api_router.post("/webhook/shopify")
+async def shopify_webhook(request: Request):
+    """Endpoint pour recevoir les webhooks Shopify"""
+    try:
+        body = await request.body()
+        signature = request.headers.get("X-Shopify-Hmac-Sha256", "")
+        
+        # Vérifier la signature (optionnel en mode démo)
+        if not shopify_integration.verify_webhook(body, signature):
+            logger.warning("Signature webhook invalide")
+            # En mode démo, on continue quand même
+        
+        webhook_data = await request.json()
+        result = await shopify_integration.handle_payment_webhook(webhook_data)
+        
+        if result.get("action") == "activate_premium":
+            # Trouver l'utilisateur par email
+            user = await db.users.find_one({"email": result["customer_email"]})
+            if user:
+                await db.users.update_one(
+                    {"id": user["id"]},
+                    {"$set": {"is_premium": True, "premium_activated_at": datetime.utcnow()}}
+                )
+                logger.info(f"Premium activé automatiquement pour {result['customer_email']}")
+        
+        return {"status": "ok", "processed": result}
+        
+    except Exception as e:
+        logger.error(f"Erreur webhook Shopify: {e}")
+        return {"status": "error", "message": str(e)}
+
+# General stats endpoint
+@api_router.get("/stats")
+async def get_stats():
+    total_users = await db.users.count_documents({})
+    total_modules = await db.modules.count_documents({})
+    total_certificates = await db.certificates.count_documents({})
+    premium_users = await db.users.count_documents({"is_premium": True})
+    
+    # Calculate average completion rate
+    if total_users > 0:
+        completed_progresses = await db.user_progress.count_documents({"status": ModuleStatus.COMPLETED})
+        total_progresses = await db.user_progress.count_documents({})
+        average_completion_rate = (completed_progresses / total_progresses * 100) if total_progresses > 0 else 0
+    else:
+        average_completion_rate = 0
+    
+    return {
+        "total_users": total_users,
+        "premium_users": premium_users,
+        "total_modules": total_modules,
+        "total_certificates": total_certificates,
+        "average_completion_rate": round(average_completion_rate, 1)
+    }
 
 # Health check
 @api_router.get("/health")
