@@ -4,11 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Badge } from "../components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Star, Play, Users, Award, CheckCircle, ArrowRight, BookOpen, Clock, Target, Sparkles, Zap, Trophy, Crown, Gem, Shield } from "lucide-react";
-import { mockModules, mockTestimonials, mockStats } from "../components/mock";
+import { mockTestimonials } from "../components/mock";
+import { useModules, useStats } from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { data: modules = [], loading: modulesLoading } = useModules();
+  const { data: stats = {}, loading: statsLoading } = useStats();
 
   return (
     <div className="min-h-screen brand-gradient-clean relative overflow-hidden">
@@ -118,10 +121,10 @@ const HomePage = () => {
           {/* Professional Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto px-4">
             {[
-              { value: mockStats.totalStudents + '+', label: 'Participants', icon: Users },
-              { value: mockStats.completionRate + '%', label: 'Taux de réussite', icon: Target },
-              { value: mockStats.averageRating + '/5', label: 'Note moyenne', icon: Star },
-              { value: mockStats.moduleCount, label: 'Modules', icon: Award }
+              { value: (stats.totalStudents || 2847) + '+', label: 'Participants', icon: Users },
+              { value: (stats.completionRate || 94) + '%', label: 'Taux de réussite', icon: Target },
+              { value: (stats.averageRating || 4.9) + '/5', label: 'Note moyenne', icon: Star },
+              { value: stats.moduleCount || modules.length || 6, label: 'Modules', icon: Award }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
                 <div className="card-professional glass-morphism-clean p-4 md:p-6 rounded-2xl border border-yellow-500/15 hover:border-yellow-400/30 transition-all duration-300">
@@ -129,7 +132,7 @@ const HomePage = () => {
                     <stat.icon className="w-6 h-6 text-black" />
                   </div>
                   <div className="text-3xl md:text-4xl font-black stat-number-clean mb-2">
-                    {stat.value}
+                    {statsLoading ? '...' : stat.value}
                   </div>
                   <div className="text-gray-400 font-medium text-sm md:text-base">{stat.label}</div>
                 </div>
@@ -155,58 +158,75 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {mockModules.map((module, index) => (
-              <Card key={module.id} className="group card-professional glass-morphism-clean border-gray-700/50 hover:border-yellow-400/40 backdrop-blur-xl relative overflow-hidden">
-                <CardHeader className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge 
-                      className={`${module.completed ? "bg-green-500/20 text-green-400 border-green-500/30" : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"} font-semibold px-3 py-1 badge-clean`}
+          {modulesLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {[...Array(6)].map((_, index) => (
+                <Card key={index} className="card-professional glass-morphism-clean border-gray-700/50 animate-pulse">
+                  <CardHeader className="p-6">
+                    <div className="h-6 bg-gray-700 rounded mb-3"></div>
+                    <div className="h-8 bg-gray-700 rounded mb-3"></div>
+                    <div className="h-16 bg-gray-700 rounded"></div>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <div className="h-24 bg-gray-700 rounded"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {modules.map((module, index) => (
+                <Card key={module.id} className="group card-professional glass-morphism-clean border-gray-700/50 hover:border-yellow-400/40 backdrop-blur-xl relative overflow-hidden">
+                  <CardHeader className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge 
+                        className={`${module.completed ? "bg-green-500/20 text-green-400 border-green-500/30" : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"} font-semibold px-3 py-1 badge-clean`}
+                      >
+                        Module {index + 1}
+                      </Badge>
+                      {module.completed && <CheckCircle className="w-5 h-5 text-green-400" />}
+                    </div>
+                    <CardTitle className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors mb-3">
+                      {module.title}
+                    </CardTitle>
+                    <CardDescription className="text-gray-400 leading-relaxed">
+                      {module.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4" />
+                        <span className="font-medium">{module.duration}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <BookOpen className="w-4 h-4" />
+                        <span className="font-medium">{module.lessons} leçons</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-400 font-medium">Progression</span>
+                        <span className="text-white font-bold">{module.progress}%</span>
+                      </div>
+                      <div className="progress-bar-clean h-2 rounded-full overflow-hidden">
+                        <div 
+                          className="progress-fill h-full transition-all duration-500"
+                          style={{ width: `${module.progress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <Button 
+                      className="w-full glass-morphism-clean border-gray-600 text-gray-300 hover:bg-yellow-400/10 hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 font-semibold button-professional"
+                      onClick={() => navigate(`/module/${module.id}`)}
                     >
-                      Module {index + 1}
-                    </Badge>
-                    {module.completed && <CheckCircle className="w-5 h-5 text-green-400" />}
-                  </div>
-                  <CardTitle className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors mb-3">
-                    {module.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-400 leading-relaxed">
-                    {module.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4" />
-                      <span className="font-medium">{module.duration}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <BookOpen className="w-4 h-4" />
-                      <span className="font-medium">{module.lessons} leçons</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400 font-medium">Progression</span>
-                      <span className="text-white font-bold">{module.progress}%</span>
-                    </div>
-                    <div className="progress-bar-clean h-2 rounded-full overflow-hidden">
-                      <div 
-                        className="progress-fill h-full transition-all duration-500"
-                        style={{ width: `${module.progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                  <Button 
-                    className="w-full glass-morphism-clean border-gray-600 text-gray-300 hover:bg-yellow-400/10 hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 font-semibold button-professional"
-                    onClick={() => navigate(`/module/${module.id}`)}
-                  >
-                    {module.completed ? "Revoir" : "Commencer"}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                      {module.completed ? "Revoir" : "Commencer"}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
