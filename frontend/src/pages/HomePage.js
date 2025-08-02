@@ -10,7 +10,12 @@ import {
   Target,
   Heart,
   Shield,
-  Zap
+  Zap,
+  Crown,
+  Award,
+  TrendingUp,
+  Clock,
+  BookOpen
 } from 'lucide-react';
 import { useAuth } from '../App';
 import { statsService } from '../services/api';
