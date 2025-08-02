@@ -142,6 +142,17 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="hero-section pt-20 pb-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
+          <div className="relative mb-8">
+            <img 
+              src="https://images.unsplash.com/photo-1646581051219-cd875dd2a105?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMG1vdGl2YXRpb258ZW58MHx8fHwxNzU0MTQzMDkwfDA&ixlib=rb-4.1.0&q=85"
+              alt="Créer sa confiance"
+              className="w-full h-64 object-cover rounded-3xl mb-8 opacity-80 hover:opacity-100 transition-all duration-500"
+              style={{
+                filter: 'brightness(1.2) saturate(1.5) contrast(1.1)',
+                boxShadow: '0 0 80px rgba(255, 215, 0, 0.4), 0 0 160px rgba(255, 107, 53, 0.3)'
+              }}
+            />
+          </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
             Développez votre{' '}
             <span className="gold-gradient-text">
@@ -151,17 +162,17 @@ const HomePage = () => {
             en 6 modules experts
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in-up">
-            Transformez votre relation à vous-même avec notre formation premium. 
-            Des techniques éprouvées pour construire une confiance durable.
+            🚀 Transformez votre relation à vous-même avec notre formation premium. 
+            Des techniques éprouvées pour construire une confiance durable et éclatante ! ✨
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
             <Link to="/auth?tab=register" className="btn-primary text-lg px-8 py-4">
               <PlayCircle className="w-6 h-6" />
-              Commencer maintenant
+              🔥 Commencer maintenant
             </Link>
-            <div className="text-center">
-              <div className="text-3xl font-bold gold-gradient-text">97€</div>
-              <div className="text-gray-400">Accès à vie</div>
+            <div className="text-center premium-glow">
+              <div className="text-4xl font-bold gold-gradient-text">💎 97€</div>
+              <div className="text-gray-300">✨ Accès à vie ✨</div>
             </div>
           </div>
         </div>
