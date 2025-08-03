@@ -11,6 +11,8 @@ body {
   color: #ffffff;
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
@@ -58,7 +60,6 @@ body {
   font-weight: 700;
 }
 
-/* Nouveau gradient vert premium */
 .green-gradient {
   background: linear-gradient(135deg, 
     #10b981 0%, 
@@ -78,29 +79,33 @@ body {
   font-weight: 700;
 }
 
-/* Boutons épurés avec variantes vertes */
+/* Boutons optimisés mobile */
 .btn-primary {
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
   color: #000;
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  min-height: 48px; /* Taille tactile recommandée */
   box-shadow: 
     0 4px 15px rgba(212, 175, 55, 0.3),
     0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:active {
   transform: translateY(-2px);
   box-shadow: 
     0 6px 20px rgba(212, 175, 55, 0.4),
@@ -112,24 +117,28 @@ body {
   background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #16a34a 100%);
   color: #000;
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  min-height: 48px;
   box-shadow: 
     0 4px 15px rgba(34, 197, 94, 0.3),
     0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-success:hover {
+.btn-success:hover, .btn-success:active {
   transform: translateY(-2px);
   box-shadow: 
     0 6px 20px rgba(34, 197, 94, 0.4),
@@ -141,41 +150,46 @@ body {
   background: transparent;
   color: #D4AF37;
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
   border: 2px solid #D4AF37;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  min-height: 48px;
   transition: all 0.3s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, .btn-secondary:active {
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
   color: #000;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
-/* Cards élégantes avec accents verts */
+/* Cards optimisées mobile */
 .card {
   background: linear-gradient(135deg, 
     rgba(26, 26, 26, 0.8) 0%, 
     rgba(17, 17, 17, 0.9) 100%);
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1.5rem;
   position: relative;
   backdrop-filter: blur(10px);
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.3),
     0 1px 3px rgba(212, 175, 55, 0.1);
   transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .card::before {
@@ -190,19 +204,18 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px);
+.card:hover, .card:active {
+  transform: translateY(-2px);
   border-color: rgba(212, 175, 55, 0.4);
   box-shadow: 
-    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 6px 25px rgba(0, 0, 0, 0.4),
     0 2px 8px rgba(212, 175, 55, 0.2);
 }
 
-.card:hover::before {
+.card:hover::before, .card:active::before {
   opacity: 1;
 }
 
-/* Card verte pour succès */
 .card-success {
   background: linear-gradient(135deg, 
     rgba(16, 185, 129, 0.1) 0%, 
@@ -215,29 +228,32 @@ body {
   background: linear-gradient(90deg, transparent, #22c55e, transparent);
 }
 
-/* Module cards premium avec statuts colorés */
+/* Module cards mobile-first */
 .module-card {
   background: linear-gradient(135deg, 
     rgba(26, 26, 26, 0.9) 0%, 
     rgba(17, 17, 17, 0.95) 100%);
   border: 2px solid rgba(212, 175, 55, 0.3);
-  border-radius: 1.25rem;
-  padding: 2.5rem;
+  border-radius: 1rem;
+  padding: 1.5rem;
   cursor: pointer;
   position: relative;
   backdrop-filter: blur(15px);
   box-shadow: 
-    0 6px 25px rgba(0, 0, 0, 0.4),
+    0 4px 20px rgba(0, 0, 0, 0.4),
     0 2px 8px rgba(212, 175, 55, 0.1);
   transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.module-card:hover {
-  transform: translateY(-6px);
+.module-card:hover, .module-card:active {
+  transform: translateY(-2px);
   border-color: rgba(212, 175, 55, 0.6);
   box-shadow: 
-    0 10px 40px rgba(0, 0, 0, 0.5),
-    0 4px 15px rgba(212, 175, 55, 0.3);
+    0 6px 30px rgba(0, 0, 0, 0.5),
+    0 3px 12px rgba(212, 175, 55, 0.3);
 }
 
 .module-card.completed {
@@ -247,15 +263,15 @@ body {
     rgba(26, 26, 26, 0.9) 50%, 
     rgba(17, 17, 17, 0.95) 100%);
   box-shadow: 
-    0 6px 25px rgba(34, 197, 94, 0.2),
+    0 4px 20px rgba(34, 197, 94, 0.2),
     0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.module-card.completed:hover {
+.module-card.completed:hover, .module-card.completed:active {
   border-color: rgba(34, 197, 94, 0.8);
   box-shadow: 
-    0 10px 40px rgba(34, 197, 94, 0.3),
-    0 4px 15px rgba(34, 197, 94, 0.2);
+    0 6px 30px rgba(34, 197, 94, 0.3),
+    0 3px 12px rgba(34, 197, 94, 0.2);
 }
 
 .module-card.in-progress {
@@ -266,7 +282,7 @@ body {
     rgba(17, 17, 17, 0.95) 100%);
 }
 
-/* Progress bars avec variantes vertes */
+/* Progress bars mobile */
 .progress-bar {
   width: 100%;
   height: 0.5rem;
@@ -289,11 +305,11 @@ body {
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
 }
 
-/* Animations subtiles */
+/* Animations mobiles */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -304,7 +320,7 @@ body {
 @keyframes fadeInScale {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
@@ -313,23 +329,26 @@ body {
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
 .animate-fade-in-scale {
-  animation: fadeInScale 0.6s ease-out forwards;
+  animation: fadeInScale 0.5s ease-out forwards;
 }
 
-/* Formulaires épurés */
+/* Formulaires mobile */
 .form-input {
   width: 100%;
-  padding: 1rem;
+  padding: 1.25rem;
   background: rgba(26, 26, 26, 0.8);
   border: 2px solid rgba(212, 175, 55, 0.2);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  min-height: 48px;
   transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-input:focus {
@@ -347,17 +366,18 @@ body {
   color: #888;
 }
 
-/* Hero section épurée */
+/* Hero section mobile */
 .hero-section {
   background: linear-gradient(135deg, 
     rgba(17, 17, 17, 0.8) 0%, 
     rgba(10, 10, 10, 0.9) 100%);
   position: relative;
+  padding: 2rem 1rem;
 }
 
-/* Counters stylés */
+/* Counters mobile */
 .stat-counter {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
   -webkit-background-clip: text;
@@ -372,15 +392,60 @@ body {
   background-clip: text;
 }
 
-/* Navigation premium */
+/* Navigation mobile */
 nav {
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(212, 175, 55, 0.1);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
-/* Loading spinner net */
+/* Menu mobile hamburger */
+.mobile-menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 1rem;
+}
+
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-menu-item {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-item:hover, .mobile-menu-item:active {
+  background: rgba(212, 175, 55, 0.1);
+  color: #D4AF37;
+}
+
+/* Loading spinner mobile */
 .loading-spinner {
   width: 40px;
   height: 40px;
@@ -395,9 +460,9 @@ nav {
   100% { transform: rotate(360deg); }
 }
 
-/* Scrollbar stylée */
+/* Scrollbar mobile */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -406,14 +471,10 @@ nav {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #D4AF37, #FFD700);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #FFD700, #B8860B);
-}
-
-/* Logo et branding */
+/* Logo et branding mobile */
 .brand-logo {
   background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
   border-radius: 0.75rem;
@@ -434,12 +495,12 @@ nav {
   letter-spacing: -0.5px;
 }
 
-/* Badges et étiquettes avec variantes */
+/* Badges mobile */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.375rem 0.75rem;
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 9999px;
@@ -463,34 +524,7 @@ nav {
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
 }
 
-/* Premium effects épurés */
-.premium-glow {
-  position: relative;
-}
-
-.premium-glow::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, 
-    transparent, 
-    rgba(212, 175, 55, 0.2), 
-    rgba(34, 197, 94, 0.1), 
-    transparent);
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.premium-glow:hover::after {
-  opacity: 1;
-}
-
-/* Typography améliorée */
+/* Typography mobile */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -513,7 +547,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
-/* Icônes stylées */
+/* Icônes mobile */
 .icon-gold {
   color: #D4AF37;
   filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
@@ -524,134 +558,290 @@ h1, h2, h3, h4, h5, h6 {
   filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3));
 }
 
-/* Status indicators */
+/* Status indicators mobile */
 .status-completed {
   color: #22c55e;
   background: rgba(34, 197, 94, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .status-in-progress {
   color: #D4AF37;
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .status-not-started {
   color: #6b7280;
   background: rgba(107, 114, 128, 0.1);
   border: 1px solid rgba(107, 114, 128, 0.3);
-}
-
-/* Accents verts pour éléments spéciaux */
-.success-accent {
-  border-left: 4px solid #22c55e;
-  background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.05) 0%, 
-    rgba(26, 26, 26, 0.8) 100%);
-}
-
-.certificate-badge {
-  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
-  color: #000;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
 }
 
-/* Responsive épuré */
-@media (max-width: 768px) {
-  .btn-primary,
-  .btn-secondary,
-  .btn-success {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.9rem;
-  }
-  
-  .card {
-    padding: 1.5rem;
-  }
-  
-  .module-card {
-    padding: 2rem;
-  }
-  
-  .stat-counter {
-    font-size: 2.5rem;
-  }
-}
+/* Responsive Design - Mobile First */
 
+/* Extra Small Mobile (320px - 480px) */
 @media (max-width: 480px) {
+  body {
+    font-size: 16px; /* Taille de base mobile */
+  }
+
+  .App {
+    padding: 0;
+  }
+
+  /* Navigation mobile */
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  /* Hero mobile */
+  .hero-section {
+    padding: 3rem 1rem 2rem;
+    text-align: center;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Cards mobile */
+  .card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .module-card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Buttons mobile */
   .btn-primary,
   .btn-secondary,
   .btn-success {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.85rem;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+    margin-bottom: 0.5rem;
   }
-  
-  .hero-section {
-    padding: 2rem 1rem;
-  }
-  
+
+  /* Stats mobile */
   .stat-counter {
     font-size: 2rem;
   }
+
+  /* Grid mobile */
+  .grid-mobile-1 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grid-mobile-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Text sizes mobile */
+  .text-sm-mobile {
+    font-size: 0.875rem;
+  }
+
+  .text-lg-mobile {
+    font-size: 1.125rem;
+  }
+
+  .text-xl-mobile {
+    font-size: 1.25rem;
+  }
+
+  /* Spacing mobile */
+  .p-mobile {
+    padding: 1rem;
+  }
+
+  .py-mobile {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .px-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .mb-mobile {
+    margin-bottom: 1rem;
+  }
 }
 
-/* Effets de focus et accessibilité */
-.focus-visible:focus {
-  outline: 2px solid #D4AF37;
-  outline-offset: 2px;
+/* Small Mobile (481px - 600px) */
+@media (min-width: 481px) and (max-width: 600px) {
+  .hero-section h1 {
+    font-size: 3rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-success {
+    width: auto;
+    min-width: 200px;
+  }
+
+  .grid-mobile-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
 }
 
-/* Transitions globales */
+/* Large Mobile / Small Tablet (601px - 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 3.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .module-card {
+    padding: 1.75rem;
+  }
+
+  .grid-mobile-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .grid-mobile-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mobile-menu-button {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: flex;
+  }
+
+  .hero-section h1 {
+    font-size: 4rem;
+  }
+
+  .card {
+    padding: 2rem;
+  }
+
+  .module-card {
+    padding: 2rem;
+  }
+
+  .stat-counter {
+    font-size: 3rem;
+  }
+}
+
+/* Desktop (1025px+) */
+@media (min-width: 1025px) {
+  .hero-section h1 {
+    font-size: 5rem;
+  }
+
+  .card {
+    padding: 2.5rem;
+  }
+
+  .module-card {
+    padding: 2.5rem;
+  }
+
+  .stat-counter {
+    font-size: 3.5rem;
+  }
+}
+
+/* Améliorations tactiles */
+@media (hover: none) and (pointer: coarse) {
+  /* Styles spécifiques aux appareils tactiles */
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-success:hover,
+  .card:hover,
+  .module-card:hover {
+    transform: none;
+  }
+
+  .btn-primary:active,
+  .btn-secondary:active,
+  .btn-success:active {
+    transform: scale(0.98);
+  }
+
+  .card:active,
+  .module-card:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Optimisations performance mobile */
 * {
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
-/* Sections distinctes */
-.section-dark {
-  background: linear-gradient(135deg, 
-    rgba(10, 10, 10, 0.95) 0%, 
-    rgba(17, 17, 17, 0.9) 100%);
+/* Transitions optimisées mobile */
+* {
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
 }
 
-.section-darker {
-  background: linear-gradient(135deg, 
-    rgba(5, 5, 5, 0.98) 0%, 
-    rgba(10, 10, 10, 0.95) 100%);
+/* Éviter les débordements sur mobile */
+.container-mobile {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* Nouveaux éléments verts */
-.growth-indicator {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.1);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+/* Z-index mobile */
+.mobile-nav {
+  z-index: 1000;
 }
 
-.completion-ring {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.mobile-menu {
+  z-index: 999;
 }
 
-.completion-ring::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #22c55e, #10b981, #16a34a, #22c55e);
-  animation: rotate 3s linear infinite;
-}
-
-@keyframes rotate {
-  to { transform: rotate(360deg); }
+/* Amélioration de l'accessibilité mobile */
+.focus-visible:focus {
+  outline: 3px solid #D4AF37;
+  outline-offset: 2px;
 }
