@@ -151,16 +151,15 @@ const HomePage = () => {
         <div className="max-w-6xl mx-auto text-center">
           <div className="mb-8">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
-              Développez votre{' '}
               <span className="gold-gradient-text">
-                Confiance
+                ConfianceBoost
               </span>
               <br />
-              <span className="gold-gradient-text">en 6 modules experts</span>
+              <span className="text-white">Formation Premium</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in-up">
-              ✨ Transformez votre relation à vous-même avec notre formation premium. 
-              Des techniques éprouvées pour construire une confiance durable et professionnelle.
+              ✨ La plateforme N°1 pour transformer votre relation à vous-même. 
+              Rejoignez des milliers de personnes qui ont déjà repris confiance en elles.
             </p>
           </div>
           
@@ -179,7 +178,7 @@ const HomePage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-gray-900/50">
+      <section className="py-16 px-4 section-darker">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div className="animate-fade-in-scale">
@@ -187,7 +186,7 @@ const HomePage = () => {
               <div className="text-gray-400">Utilisateurs actifs</div>
             </div>
             <div className="animate-fade-in-scale">
-              <div className="stat-counter">{stats.premium_users}</div>
+              <div className="stat-counter success">{stats.premium_users}</div>
               <div className="text-gray-400">Membres premium</div>
             </div>
             <div className="animate-fade-in-scale">
@@ -195,8 +194,43 @@ const HomePage = () => {
               <div className="text-gray-400">Certificats délivrés</div>
             </div>
             <div className="animate-fade-in-scale">
-              <div className="stat-counter">{stats.average_completion_rate}%</div>
+              <div className="stat-counter success">{stats.average_completion_rate}%</div>
               <div className="text-gray-400">Taux de réussite</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Développez votre confiance - REPOSITIONNÉE ICI */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 animate-fade-in-up">
+            Développez votre{' '}
+            <span className="gold-gradient-text">
+              Confiance
+            </span>
+            <br />
+            <span className="text-success">en 6 modules experts</span>
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in-up">
+            🚀 Des techniques éprouvées et validées par des psychologues professionnels. 
+            Plus de 315 minutes de contenu premium pour une transformation durable.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
+            <Link to="/auth?tab=register" className="btn-success text-lg px-8 py-4">
+              <Target className="w-6 h-6" />
+              Découvrir les Modules
+            </Link>
+            <div className="flex items-center gap-4 text-gray-300">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span>315 min de formation</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-premium" />
+                <span>6 certificats inclus</span>
+              </div>
             </div>
           </div>
         </div>
