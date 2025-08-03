@@ -151,15 +151,16 @@ const HomePage = () => {
         <div className="max-w-6xl mx-auto text-center">
           <div className="mb-8">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+              Développez votre{' '}
               <span className="gold-gradient-text">
-                ConfianceBoost
+                Confiance
               </span>
               <br />
-              <span className="text-white">Formation Premium</span>
+              <span className="gold-gradient-text">en 6 modules experts</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in-up">
-              ✨ La plateforme N°1 pour transformer votre relation à vous-même. 
-              Rejoignez des milliers de personnes qui ont déjà repris confiance en elles.
+              ✨ Transformez votre relation à vous-même avec notre formation premium. 
+              Des techniques éprouvées pour construire une confiance durable et professionnelle.
             </p>
           </div>
           
@@ -196,41 +197,6 @@ const HomePage = () => {
             <div className="animate-fade-in-scale">
               <div className="stat-counter success">{stats.average_completion_rate}%</div>
               <div className="text-gray-400">Taux de réussite</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Développez votre confiance - REPOSITIONNÉE ICI */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 animate-fade-in-up">
-            Développez votre{' '}
-            <span className="gold-gradient-text">
-              Confiance
-            </span>
-            <br />
-            <span className="text-success">en 6 modules experts</span>
-          </h2>
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in-up">
-            🚀 Des techniques éprouvées et validées par des psychologues professionnels. 
-            Plus de 315 minutes de contenu premium pour une transformation durable.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
-            <Link to="/auth?tab=register" className="btn-success text-lg px-8 py-4">
-              <Target className="w-6 h-6" />
-              Découvrir les Modules
-            </Link>
-            <div className="flex items-center gap-4 text-gray-300">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span>315 min de formation</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-premium" />
-                <span>6 certificats inclus</span>
-              </div>
             </div>
           </div>
         </div>
